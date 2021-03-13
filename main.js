@@ -1,50 +1,81 @@
 $(function(){
 
-  var arrowPrev = $("div.prev");
-  var arrowNext = $("div.next");
-  // Aggiungo evento click a div con classe PREV
-  arrowPrev.click(
-    function(){
-      var activeImg = $(".images > img.active");
-      var lastImg = $(".images > img.last");
-      var activeBullet = $(".nav i.active");
-      var lastBullet = $(".nav i.last");
-      /* Al click di arrow next la classe active viene rimossa dal tag img
-      ed aggiunto alL'elemento successivo*/
-      activeImg.removeClass("active");
-      activeBullet.removeClass("active");
+  // Funzione per spostare classe active prev/next
+  function activeNext(element, first){
+    element.removeClass("active");
+    if(!(element.hasClass("last"))){
+      element.next().addClass("active");
+    }
+    else{
+      first.addClass("active");
+    }
+  }
 
-      if(!(activeImg.hasClass("first")) && !(activeBullet.hasClass("first"))){
-        activeImg.prev().addClass("active");
-        activeBullet.prev().addClass("active");
-      }
-      else{
-        lastImg.addClass("active");
-        lastBullet.addClass("active");
-      }
+  function activePrev(element, last){
+    element.removeClass("active");
+    if(!(element.hasClass("first"))){
+      element.prev().addClass("active");
+    }
+    else{
+      last.addClass("active");
+    }
+  }
+  // /Funzione per spostare classe active prev/next
+
+  // Funzione Img/Bullets Prev/Next
+  function prevCarousel(){
+    var activeImg = $(".images > img.active");
+    var lastImg = $(".images > img.last");
+    var activeBullet = $(".nav i.active");
+    var lastBullet = $(".nav i.last");
+
+    activePrev(activeImg, lastImg);
+    activePrev(activeBullet, lastBullet);
+  }
+
+  function nextCarousel(){
+    var activeImg = $(".images > img.active");
+    var firstImg = $(".images > img.first");
+    var activeBullet = $(".nav i.active");
+    var firstBullet = $(".nav i.first");
+
+    activeNext(activeImg, firstImg);
+    activeNext(activeBullet, firstBullet);
+  }
+  // /Funzione Img/Bullets Prev/Next
+
+  // Variabili
+  var arrowL = $("div.prev");
+  var arrowR = $("div.next");
+  var bullets = $(".nav i")
+  // /Variabili
+
+  // Evento key Prev/Next
+  function controlKey(evento){
+    var x = evento.key;
+    if(x === "ArrowLeft"){
+      prevCarousel();
+    }
+
+    if(x === "ArrowRight"){
+      nextCarousel();
+    }
+  }
+  document.addEventListener("keydown", controlKey);
+  // /Evento Key Prev/Next
+
+  // Evento click Prev/Next
+  arrowL.click(
+    function(){
+      prevCarousel();
     }
   );
-  // /Aggiungo evento click a div con classe PREV
 
-  // Aggiungo evento click a div con classe NEXT
-  arrowNext.click(
+  arrowR.click(
     function(){
-      var activeImg = $(".images > img.active");
-      var firstImg = $(".images > img.first");
-      var activeBullet = $(".nav i.active");
-      var firstBullet = $(".nav i.first")
+      nextCarousel();
+    }
+  );
+  // /Evento click Prev/Next
 
-      activeImg.removeClass("active");
-      activeBullet.removeClass("active");
-
-      if(!(activeImg.hasClass("last"))){
-        activeImg.next().addClass("active");
-        activeBullet.next().addClass("active");
-      }
-      else{
-        firstImg.addClass("active");
-        firstBullet.addClass("active");
-      }
-  });
-  // /Aggiungo evento click a div con classe NEXT
 });
