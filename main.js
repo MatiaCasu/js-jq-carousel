@@ -47,7 +47,8 @@ $(function(){
   // Variabili
   var arrowL = $("div.prev");
   var arrowR = $("div.next");
-  var bullets = $(".nav i")
+  var bullets = $(".nav i");
+
   // /Variabili
 
   // Evento key Prev/Next
@@ -77,5 +78,21 @@ $(function(){
     }
   );
   // /Evento click Prev/Next
+
+  // Classe "active" img/bullets con indice uguale al click di bullet
+  bullets.click(
+    function(){
+      var bullets = $(".nav i");
+      var images = $(".images > img");
+      var index = $(this).index();
+
+      bullets.removeClass("active");
+      images.removeClass("active");
+
+      $(this).addClass("active");
+      images.eq(index).addClass("active");
+    }
+  );
+  // /Classe "active" img/bullets con indice uguale al click di bullet
 
 });
